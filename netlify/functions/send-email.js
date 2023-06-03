@@ -44,7 +44,10 @@ exports.handler = async (event) => {
       text: htmltotext
     });
 
-    return { statusCode: 200,    body: JSON.stringify({'message': 'Email sent!'})}
+    return { statusCode: 200,  headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+    },  body: JSON.stringify({'message': 'Email sent!'})}
     
   } catch (error) {
     console.log(error)
