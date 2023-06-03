@@ -1,12 +1,15 @@
 require("dotenv").config();
-const { Resend} = require('resend');
-const {convert} = require('html-to-text');
+const { Resend } = require("resend");
+const { convert } = require("html-to-text");
 
 exports.handler = async (event) => {
   try {
-    const {email, phone, company, position, profile, message, name} = JSON.parse(event.body).contact;
+    switch (event.httpMethod) {
+      case "POST":
+        const { email, phone, company, position, profile, message, name } =
+          JSON.parse(event.body).contact;
 
-    const html = `
+        const html = `
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -31,29 +34,44 @@ exports.handler = async (event) => {
         </div>
       </body>
     </html>
-    `
-    const htmltotext = convert(html)
+    `;
+        const htmltotext = convert(html);
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
+        const resend = new Resend(process.env.RESEND_API_KEY);
 
-    await resend.emails.send({
-      from: process.env.EMAIL_FROM,
-      to: process.env.EMAIL_TO,
-      subject: 'Message from ' + name,
-      html: html,
-      text: htmltotext
-    });
+        await resend.emails.send({
+          from: process.env.EMAIL_FROM,
+          to: process.env.EMAIL_TO,
+          subject: "Message from " + name,
+          html: html,
+          text: htmltotext,
+        });
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            message: "Email sent!",
+          }),
+        };
 
-    return { statusCode: 200,  headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true
-    },  body: JSON.stringify({'message': 'Email sent!'})}
-    
-  } catch (error) {
-    console.log(error)
-    return {
-        statusCode: 400,
-      body: JSON.stringify({'error': 'Opsss... Something went wrong ' + error})
+      case "OPTIONS":
+        const headers = {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        };
+        return {
+          statusCode: 200,
+          headers,
+          body: "This was a preflight call!",
+        };
     }
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        error: "Opsss... Something went wrong " + error,
+      }),
+    };
   }
-}
+};
