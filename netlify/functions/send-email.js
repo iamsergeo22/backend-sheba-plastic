@@ -4,6 +4,12 @@ const { convert } = require("html-to-text");
 
 exports.handler = async (event) => {
   try {
+    const headers = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+    };
+
     switch (event.httpMethod) {
       case "POST":
         const { email, phone, company, position, profile, message, name } =
@@ -48,17 +54,13 @@ exports.handler = async (event) => {
         });
         return {
           statusCode: 200,
+          headers,
           body: JSON.stringify({
             message: "Email sent!",
           }),
         };
 
       case "OPTIONS":
-        const headers = {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-        };
         return {
           statusCode: 200,
           headers,
