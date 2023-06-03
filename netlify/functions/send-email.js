@@ -1,9 +1,8 @@
-
 require("dotenv").config();
 const { Resend} = require('resend');
 const {convert} = require('html-to-text');
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   try {
     const {email, phone, company, position, profile, message, name} = JSON.parse(event.body).contact;
 
