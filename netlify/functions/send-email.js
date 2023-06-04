@@ -24,7 +24,7 @@ exports.handler = async (event) => {
         <title>Message from ${name}</title>
       </head>
       <body>
-        <div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5">
+        <div style="font-family: Arial, sans-serif; font-size: 12px; line-height: 1.2">
           <p style="font-weight: bold">Email:</p>
           <p>${email}</p>
           <p style="font-weight: bold">Telephone:</p>
