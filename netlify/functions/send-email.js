@@ -16,30 +16,56 @@ exports.handler = async (event) => {
           JSON.parse(event.body).contact;
 
         const html = `
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Message from ${name}</title>
-      </head>
-      <body>
-        <div style="font-family: Arial, sans-serif; font-size: 12px; line-height: 1.2">
-          <p style="font-weight: bold">Email:</p>
-          <p>${email}</p>
-          <p style="font-weight: bold">Telephone:</p>
-          <p>${phone}</p>
-          <p style="font-weight: bold">Company:</p>
-          <p>${company}</p>
-          <p style="font-weight: bold">Position:</p>
-          <p>${position}</p>
-          <p style="font-weight: bold">Profile:</p>
-          <p>${profile}</p>
-          <p style="font-weight: bold">Message:</p>
-          <p>${message}</p>
-        </div>
-      </body>
-    </html>
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Message from ${name}</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                font-size: 12px;
+                line-height: 1.2;
+              }
+              
+              p {
+                font-weight: bold;
+                margin-bottom: 5px;
+              }
+              
+              .content {
+                margin-bottom: 20px;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="content">
+              <p>Email:</p>
+              <p>${email}</p>
+            </div>
+            <div class="content">
+              <p>Telephone:</p>
+              <p>${phone}</p>
+            </div>
+            <div class="content">
+              <p>Company:</p>
+              <p>${company}</p>
+            </div>
+            <div class="content">
+              <p>Position:</p>
+              <p>${position}</p>
+            </div>
+            <div class="content">
+              <p>Profile:</p>
+              <p>${profile}</p>
+            </div>
+            <div class="content">
+              <p>Message:</p>
+              <p>${message}</p>
+            </div>
+          </body>
+        </html>                
     `;
         const htmltotext = convert(html);
 
