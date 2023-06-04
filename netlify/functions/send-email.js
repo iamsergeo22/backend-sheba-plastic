@@ -30,7 +30,6 @@ exports.handler = async (event) => {
               }
               
               p {
-                font-weight: bold;
                 margin-bottom: 5px;
               }
               
